@@ -92,7 +92,7 @@ const handleSubmit = async () => {
 Set `NEXT_PUBLIC_API_URL` to the deployed DRF host:
 
 - Local dev: `NEXT_PUBLIC_API_URL=http://127.0.0.1:8000` (in `.env.local`)
-- Production: the Railway-deployed backend URL, e.g. `NEXT_PUBLIC_API_URL=https://<your-backend>.up.railway.app` (set in Vercel/Railway env vars for the frontend)
+- Production: `NEXT_PUBLIC_API_URL=https://twocoreglobalbackend-production.up.railway.app` (set this in the frontend's Vercel project settings — Settings → Environment Variables — then redeploy)
 
 ## CORS
 
@@ -100,5 +100,6 @@ The backend only accepts cross-origin requests from origins listed in `CORS_ALLO
 
 - `http://localhost:3000`
 - `https://twocoreglobal.com`
+- `https://www.twocoreglobal.com`
 
 If the frontend is deployed under a different origin (e.g. a Vercel preview URL), add it to that list or requests will be blocked by the browser with a CORS error.
