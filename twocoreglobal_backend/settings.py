@@ -158,6 +158,7 @@ STORAGES = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://twocoreglobal.com",
+    "https://www.twocoreglobal.com",
 ]
 
 
