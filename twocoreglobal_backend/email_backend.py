@@ -32,6 +32,8 @@ class ResendAPIBackend(BaseEmailBackend):
                 payload["cc"] = message.cc
             if message.bcc:
                 payload["bcc"] = message.bcc
+            if message.reply_to:
+                payload["reply_to"] = message.reply_to
 
             request = urllib.request.Request(
                 self.api_url,

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from rest_framework import generics, permissions
 
 from .models import ContactSubmission
@@ -13,9 +13,9 @@ class ContactSubmissionCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        send_mail(
+        EmailMessage(
             subject=f"New contact form submission — {instance.full_name}",
-            message=(
+            body=(
                 f"Name: {instance.full_name}\n"
                 f"Email: {instance.email}\n"
                 f"Phone: {instance.phone}\n"
@@ -25,12 +25,12 @@ class ContactSubmissionCreateView(generics.CreateAPIView):
                 f"Message:\n{instance.message}"
             ),
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[settings.CONTACT_NOTIFICATION_EMAIL],
-            fail_silently=True,
-        )
-        send_mail(
+            to=[settings.CONTACT_NOTIFICATION_EMAIL],
+            reply_to=[instance.email],
+        ).send(fail_silently=True)
+        EmailMessage(
             subject="We've received your request — Two Core Global",
-            message=(
+            body=(
                 f"Hi {instance.full_name},\n\n"
                 "Thank you for reaching out to Two Core Global. We've received "
                 "your request and one of our experts will contact you soon.\n\n"
@@ -41,6 +41,6 @@ class ContactSubmissionCreateView(generics.CreateAPIView):
                 "Two Core Global Team"
             ),
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[instance.email],
-            fail_silently=True,
-        )
+            to=[instance.email],
+            reply_to=[settings.CONTACT_NOTIFICATION_EMAIL],
+        ).send(fail_silently=True)
